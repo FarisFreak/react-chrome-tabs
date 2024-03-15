@@ -16,6 +16,7 @@ export type Listeners = {
   onDragBegin?: () => void;
   onDragEnd?: () => void;
   onContextMenu?:(tabId: string, event: MouseEvent) => void;
+  onDoubleClick?: (tabId: string, event: MouseEvent) => void;
 };
 
 const ChromeTabsWrapper = forwardRef<HTMLDivElement, { className?: string, darkMode?: boolean}>((props, ref) => {
@@ -119,6 +120,22 @@ export function useChromeTabs(listeners: Listeners) {
       ele?.removeEventListener("contextmenu", listener);
     };
   }, []);
+
+  useEffect(() => {
+    const ele = chromeTabsRef.current?.el;
+    const listener = ({ detail }: any) => {
+      const tabEle = detail.tabEl as HTMLDivElement;
+      if (!tabEle) {
+        return;
+      }
+      const tabId = tabEle.getAttribute("data-tab-id") as string;
+      listenersLest.current.onDoubleClick?.(tabId, detail.event);
+    };
+    ele?.addEventListener("dblclick", listener);
+    return () => {
+      ele?.removeEventListener("dblclick", listener);
+    }
+  })
 
   useEffect(() => {
     const listener = () => {

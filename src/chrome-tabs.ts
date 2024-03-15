@@ -246,6 +246,9 @@ class ChromeTabs {
     tabEl.oncontextmenu = (event) => {
       this.emit("contextmenu", { tabEl, event });
     };
+    tabEl.ondblclick = (event) => {
+      this.emit("dblclick", {tabEl, event});
+    }
     if (animate) {
       tabEl.classList.add("chrome-tab-was-just-added");
       setTimeout(

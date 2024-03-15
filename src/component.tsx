@@ -20,6 +20,7 @@ export function Tabs({
   onTabClose: onTabClose,
   onTabReorder,
   onContextMenu,
+  onDoubleClick,
 }: TabsProps) {
   const tabsLatest = useLatest(tabs);
   const previousTabs = usePrevious(tabs);
@@ -62,6 +63,7 @@ export function Tabs({
     onTabClose: onTabClose,
     onTabActive: onTabActive,
     onContextMenu,
+    onDoubleClick,
     onDragEnd: handleDragEnd,
     onTabReorder: handleTabReorder,
   });
